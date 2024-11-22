@@ -33,65 +33,73 @@ func generate(yamlBytes []byte) (outputBytes []byte, err error) {
 
 	outputBytes = make([]byte, 0, 1024)
 
-	fmt.Printf("root: %+v\n", dirs)
+	// fmt.Printf("root: %+v\n", dirs)
 
 	ancestorLines := make([]bool, dirWidthLimit)
 	for i, d := range dirs {
 		isLastChild := i == len(dirs)-1
-		outputBytes = append(outputBytes, printDir(d, 0, isLastChild, 0, ancestorLines)...)
+		outputBytes = append(outputBytes, printDir(d, isLastChild, 0, ancestorLines)...)
 	}
+
+	fmt.Printf("outputBytes:\n%s\n", outputBytes)
 
 	return outputBytes, nil
 }
 
-const dirWidthLimit = 44
-const totalWidthLimit = 80
+const dirWidthLimit = 46
+const totalWidthLimit = 85
 
 // # Arguments
 // - ancestorLines: Indicates whether a line should be drawn for the ancestor at each position.
 // - start: Start position of the directory path.
-func printDir(d dir, depth int, isLastChild bool, start int, ancestorLines []bool) (outputBytes []byte) {
-	if d.Path == "k8-fastbuild/" {
-		fmt.Printf("d: %+v\n", d)
+func printDir(d dir, isLastChild bool, start int, ancestorLines []bool) (outputBytes []byte) {
+	if !isLastChild {
+		ancestorLines[start] = true
 	}
+	defer func() {
+		ancestorLines[start] = false
+	}()
 
 	childStart := getChildStart(d.Path, start)
 
-	selfPrefixLen := 0
-
 	// write parent prefix
-	parentPrefix, _ := getParentPrefix(ancestorLines)
+	parentPrefix := getParentPrefix(ancestorLines)
 	outputBytes = append(outputBytes, substr(string(parentPrefix), 0, start)...)
 
 	// write self prefix
-	outputBytes = append(outputBytes, getSelfPrefix(isLastChild, start)...)
+	selfPrefix := getSelfPrefix(isLastChild, start)
+	outputBytes = append(outputBytes, selfPrefix...)
 
 	// write path
 	outputBytes = append(outputBytes, []byte(d.Path)...)
 
 	// write space
-	spaceWidth := dirWidthLimit - start - selfPrefixLen - len(d.Path)
+	spaceWidth := dirWidthLimit - start - countUnicodeLength(string(selfPrefix)) - len(d.Path)
 	outputBytes = append(outputBytes, bytes.Repeat([]byte(" "), spaceWidth)...)
 
 	// write desc
 	outputBytes = append(outputBytes, []byte("<= ")...)
-	brokenDesc := make([]string, 0, 2)
+	brokenDesc := make([]string, 0)
 	for _, desc := range d.Desc {
 		brokenDesc = append(brokenDesc, broke(desc, totalWidthLimit-dirWidthLimit)...)
 	}
 
 	for i, desc := range brokenDesc {
 		if i == 0 {
-			outputBytes = append(outputBytes, []byte(d.Desc[i])...)
+			outputBytes = append(outputBytes, []byte(desc)...)
 		} else {
 			// write parent prefix
-			parentPrefix, _ := getParentPrefix(ancestorLines)
+			parentPrefix := getParentPrefix(ancestorLines)
 			outputBytes = append(outputBytes, substr(string(parentPrefix), 0, childStart)...)
 
-			outputBytes = append(outputBytes, []byte("│")...)
+			if len(d.Children) == 0 {
+				outputBytes = append(outputBytes, []byte(" ")...)
+			} else {
+				outputBytes = append(outputBytes, []byte("│")...)
+			}
 
 			// write spaces
-			spaceWidth := dirWidthLimit - childStart + 3 + 1 // +3 for "<= ", -1 for "│"
+			spaceWidth := dirWidthLimit - childStart + 3 - 1 // +3 for "<= ", -1 for "│"
 			outputBytes = append(outputBytes, bytes.Repeat([]byte(" "), spaceWidth)...)
 
 			// write desc
@@ -100,15 +108,13 @@ func printDir(d dir, depth int, isLastChild bool, start int, ancestorLines []boo
 		outputBytes = append(outputBytes, []byte("\n")...)
 	}
 
-	parentHasFollowingSibling := !isLastChild
+	if len(brokenDesc) == 0 {
+		outputBytes = append(outputBytes, []byte("[no description]\n")...)
+	}
+
 	for i, c := range d.Children {
 		cIsFinalChild := i == len(d.Children)-1
-		if parentHasFollowingSibling {
-			ancestorLines[start] = true
-		} else {
-			ancestorLines[start] = false
-		}
-		outputBytes = append(outputBytes, printDir(c, depth+1, cIsFinalChild, childStart, ancestorLines)...)
+		outputBytes = append(outputBytes, printDir(c, cIsFinalChild, childStart, ancestorLines)...)
 	}
 
 	return outputBytes
@@ -118,35 +124,33 @@ func broke(desc string, limit int) (broken []string) {
 	if len(desc) <= limit {
 		return []string{desc}
 	}
-	broken = make([]string, 0, 2)
-	for len(desc) > limit {
-		// find the last space before the limit
-		spaceIdx := limit
-		for i := limit; i > 0; i-- {
-			if desc[i] == ' ' {
-				spaceIdx = i
-				break
+	broken = make([]string, 0)
+
+	lastSpaceIdx := 0
+	start := 0
+	for i := 0; i < len(desc); i++ {
+		if desc[i] == ' ' {
+			if i-start > limit {
+				broken = append(broken, desc[start:lastSpaceIdx])
+				start = lastSpaceIdx + 1
 			}
+			lastSpaceIdx = i
 		}
-		broken = append(broken, desc[:spaceIdx])
-		desc = desc[spaceIdx+1:]
 	}
-	broken = append(broken, desc)
+	broken = append(broken, desc[start:])
 	return broken
 }
 
-func getParentPrefix(ancestorLines []bool) ([]byte, int) {
+func getParentPrefix(ancestorLines []bool) []byte {
 	var parentPrefix []byte
-	parentPrefixLen := 0
 	for i := 0; i < len(ancestorLines); i++ {
 		if ancestorLines[i] {
 			parentPrefix = append(parentPrefix, []byte("│")...)
-			parentPrefixLen = i
 		} else {
 			parentPrefix = append(parentPrefix, []byte(" ")...)
 		}
 	}
-	return parentPrefix, parentPrefixLen
+	return parentPrefix
 }
 
 // get substring by unicode characters
@@ -176,4 +180,8 @@ func getSelfPrefix(isLastChild bool, start int) []byte {
 		return []byte("├─")
 	}
 	return []byte("")
+}
+
+func countUnicodeLength(s string) (count int) {
+	return len([]rune(s))
 }

@@ -39,7 +39,6 @@ func TestGenerate(t *testing.T) {
 				t.Errorf("generate() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			t.Logf("generate:\n%s\nwant:\n%s", gotOutputBytes, wantOutputBytes)
 			require.Equal(t, string(wantOutputBytes), string(gotOutputBytes))
 		})
 	}
