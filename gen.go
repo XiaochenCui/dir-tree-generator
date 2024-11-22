@@ -46,8 +46,8 @@ func generate(yamlBytes []byte) (outputBytes []byte, err error) {
 	return outputBytes, nil
 }
 
-const dirWidthLimit = 46
-const totalWidthLimit = 85
+const dirWidthLimit = 43
+const totalWidthLimit = 80
 
 // # Arguments
 // - ancestorLines: Indicates whether a line should be drawn for the ancestor at each position.
