@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bytes"
 	"os"
 	"testing"
 
@@ -35,13 +34,13 @@ func TestGenerate(t *testing.T) {
 			require.NoError(t, err)
 
 			gotOutputBytes, err := generate(yamlBytes)
+			require.NoError(t, err)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("generate() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			if bytes.Compare(gotOutputBytes, wantOutputBytes) != 0 {
-				t.Errorf("generate:\n%s\nwant:\n%s", gotOutputBytes, wantOutputBytes)
-			}
+			t.Logf("generate:\n%s\nwant:\n%s", gotOutputBytes, wantOutputBytes)
+			require.Equal(t, string(wantOutputBytes), string(gotOutputBytes))
 		})
 	}
 }
