@@ -24,7 +24,7 @@ func TestGenerate(t *testing.T) {
 			wantOutputBytes, err := os.ReadFile(wantOutputPath)
 			require.NoError(t, err)
 
-			gotOutputBytes, err := generate(yamlBytes)
+			gotOutputBytes, err := Generate(yamlBytes)
 			require.NoError(t, err)
 			require.Equal(t, string(wantOutputBytes), string(gotOutputBytes))
 		})
@@ -39,7 +39,7 @@ func TestUpdateTestfile(t *testing.T) {
 			yamlBytes, err := os.ReadFile(inputPath)
 			require.NoError(t, err)
 
-			gotOutputBytes, err := generate(yamlBytes)
+			gotOutputBytes, err := Generate(yamlBytes)
 			require.NoError(t, err)
 
 			err = os.WriteFile(tt[1], gotOutputBytes, 0644)

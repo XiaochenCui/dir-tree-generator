@@ -13,8 +13,11 @@ type dir struct {
 	Children []dir    `yaml:"children"`
 }
 
+// Generate generates a tree structure from a YAML file.
+//
 // e.g:
 // input:
+//
 //   - path: "~/.cache/bazel/"
 //     desc: "outputRoot"
 //     children:
@@ -22,9 +25,10 @@ type dir struct {
 //     desc: "outputUserRoot"
 //
 // output:
-// ~/.cache/bazel/                             <= outputRoot
-// └─_bazel_<user-name>/                       <= outputUserRoot
-func generate(yamlBytes []byte) (outputBytes []byte, err error) {
+//
+//	~/.cache/bazel/                             <= outputRoot
+//	         └─_bazel_<user-name>/              <= outputUserRoot
+func Generate(yamlBytes []byte) (outputBytes []byte, err error) {
 	var dirs []dir
 	err = yaml.Unmarshal(yamlBytes, &dirs)
 	if err != nil {
@@ -33,15 +37,11 @@ func generate(yamlBytes []byte) (outputBytes []byte, err error) {
 
 	outputBytes = make([]byte, 0, 1024)
 
-	// fmt.Printf("root: %+v\n", dirs)
-
 	ancestorLines := make([]bool, dirWidthLimit)
 	for i, d := range dirs {
 		isLastChild := i == len(dirs)-1
 		outputBytes = append(outputBytes, printDir(d, isLastChild, 0, ancestorLines)...)
 	}
-
-	fmt.Printf("outputBytes:\n%s\n", outputBytes)
 
 	return outputBytes, nil
 }
