@@ -7,7 +7,7 @@ import (
 
 func main() {
 	if len(os.Args) != 2 {
-		fmt.Println("Usage: go run main.go <filename>")
+		fmt.Println("Usage: dir_tree_generator <yaml_file>")
 		os.Exit(1)
 	}
 
