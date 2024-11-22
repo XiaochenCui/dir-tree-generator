@@ -61,7 +61,7 @@
               children:
                 - path: "processwrapper-sandbox/"
                   desc:
-                    - "this directory will be generated if there is '--sandbox_debug' in 'bazel build/run' command"
+                    - "generated if '--sandbox_debug' option is present"
                   children:
                     - path: "<magic-number>/"
                       desc:
@@ -72,7 +72,7 @@
                             - "mimics execroot"
                 - path: "sandbox_stash/"
                   desc:
-                    - "this directory will be generated if there is not '--sandbox_debug' in 'bazel build/run' command"
+                    - "generated if '--sandbox_debug' option is not present"
                   children:
                     - path: "CcMakeMakeRule/"
                       desc:

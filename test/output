@@ -15,14 +15,12 @@
              │                                <workspace-root>/bazel-testlogs>
              │                                symlink to here
              └─sandbox/                    <= sandboxRoot
-               ├─processwrapper-sandbox/   <= this directory will be generated if
-               │ │                            there is '--sandbox_debug' in 'bazel
-               │ │                            build/run' command
+               ├─processwrapper-sandbox/   <= generated if '--sandbox_debug' option
+               │ │                            is present
                │ └─<magic-number>/         <= (TODO: where is this number comes from?)
                │   └─execroot/             <= mimics execroot
-               └─sandbox_stash/            <= this directory will be generated if
-                 │                            there is not '--sandbox_debug' in
-                 │                            'bazel build/run' command
+               └─sandbox_stash/            <= generated if '--sandbox_debug' option
+                 │                            is not present
                  └─CcMakeMakeRule/         <= (TODO)
                    └─<magic-number>/       <= (TODO: where is this number comes from?)
                      └─execroot/           <= mimics execroot
