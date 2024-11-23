@@ -46,8 +46,8 @@ func Generate(yamlBytes []byte) (outputBytes []byte, err error) {
 	return outputBytes, nil
 }
 
-const dirWidthLimit = 43
-const totalWidthLimit = 80
+const dirWidthLimit = 75
+const totalWidthLimit = 110
 
 // # Arguments
 // - ancestorLines: Indicates whether a line should be drawn for the ancestor at each position.
@@ -75,6 +75,10 @@ func printDir(d dir, isLastChild bool, start int, ancestorLines []bool) (outputB
 
 	// write space
 	spaceWidth := dirWidthLimit - start - countUnicodeLength(string(selfPrefix)) - len(d.Path)
+	if spaceWidth < 0 {
+		fmt.Printf("spaceWidth below 0: %d\n", spaceWidth)
+		return nil
+	}
 	outputBytes = append(outputBytes, bytes.Repeat([]byte(" "), spaceWidth)...)
 
 	// write desc

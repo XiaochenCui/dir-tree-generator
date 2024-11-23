@@ -18,10 +18,18 @@
                 - path: "_main/bazel-out/"
                   desc:
                     - "outputPath"
-                    - "all actual output of the build is under here, <workspace-root>/bazel-out> symlink to here"
+                    - "all actual output of the build is under here, <workspace-root>/bazel-out symlink to here"
                   children:
                     - path: "k8-fastbuild/"
                       children:
+                        - path: "bin/"
+                          desc:
+                            - "binary output"
+                            - "<workspace-root>/bazel-bin symlink to here"
+                          children:
+                            - path: "<package-path>/<target-name>.runfiles/_main/"
+                              desc:
+                                - the defualt work directory for a target
                         - path: "testlogs/"
                           desc:
                             - "testlogsDirectory"

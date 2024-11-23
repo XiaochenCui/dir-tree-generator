@@ -26,6 +26,9 @@ func TestGenerate(t *testing.T) {
 
 			gotOutputBytes, err := Generate(yamlBytes)
 			require.NoError(t, err)
+
+			fmt.Println(string(gotOutputBytes))
+
 			require.Equal(t, string(wantOutputBytes), string(gotOutputBytes))
 		})
 	}
