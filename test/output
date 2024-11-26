@@ -22,12 +22,12 @@
              │                                                                <workspace-root>/bazel-testlogs
              │                                                                symlink to here
              └─sandbox/                                                    <= sandboxRoot
-               ├─processwrapper-sandbox/                                   <= generated if '--sandbox_debug'
-               │ │                                                            option is present
+               ├─processwrapper-sandbox/                                   <= used to conduct build/run
+               │ │                                                            will be deleted if
+               │ │                                                            '--sandbox_debug' option is not present
                │ └─<magic-number>/                                         <= (TODO: where is this number comes from?)
                │   └─execroot/                                             <= mimics execroot
-               └─sandbox_stash/                                            <= generated if '--sandbox_debug'
-                 │                                                            option is not present
+               └─sandbox_stash/                                            <= [no description]
                  └─CcMakeMakeRule/                                         <= (TODO)
                    └─<magic-number>/                                       <= (TODO: where is this number comes from?)
                      └─execroot/                                           <= mimics execroot

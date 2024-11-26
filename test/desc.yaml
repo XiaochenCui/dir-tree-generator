@@ -44,7 +44,8 @@
               children:
                 - path: "processwrapper-sandbox/"
                   desc:
-                    - "generated if '--sandbox_debug' option is present"
+                    - "used to conduct build/run"
+                    - "will be deleted if '--sandbox_debug' option is not present"
                   children:
                     - path: "<magic-number>/"
                       desc:
@@ -54,8 +55,6 @@
                           desc:
                             - "mimics execroot"
                 - path: "sandbox_stash/"
-                  desc:
-                    - "generated if '--sandbox_debug' option is not present"
                   children:
                     - path: "CcMakeMakeRule/"
                       desc:
