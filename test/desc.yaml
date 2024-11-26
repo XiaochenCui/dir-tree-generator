@@ -19,7 +19,7 @@
                   desc:
                     - "<workspace-name>/bazel-<workspace-name> symlink to here"
                   children:
-                    - path: "_main/bazel-out/"
+                    - path: "bazel-out/"
                       desc:
                         - "outputPath"
                         - "all actual output of the build is under here, <workspace-root>/bazel-out symlink to here"

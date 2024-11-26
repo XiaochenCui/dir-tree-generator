@@ -8,17 +8,17 @@
              │ └─_main/                                                    <= 
              │   │                                                            workspace-name>/bazel-<workspace-name>
              │   │                                                            symlink to here
-             │   └─_main/bazel-out/                                        <= outputPath
-             │           │                                                    all actual output of the build is
-             │           │                                                    under here,
-             │           │                                                    <workspace-root>/bazel-out symlink
-             │           │                                                    to here
-             │           └─k8-fastbuild/                                   <= [no description]
-             │             ├─bin/                                          <= binary output
-             │             │ │                                                <workspace-root>/bazel-bin symlink
-             │             │ │                                                to here
-             │             │ └─<package-path>/<target-name>.runfiles/_main/<= the defualt work directory for a target
-             │             └─testlogs/                                     <= testlogsDirectory
+             │   └─bazel-out/                                              <= outputPath
+             │     │                                                          all actual output of the build is
+             │     │                                                          under here,
+             │     │                                                          <workspace-root>/bazel-out symlink
+             │     │                                                          to here
+             │     └─k8-fastbuild/                                         <= [no description]
+             │       ├─bin/                                                <= binary output
+             │       │ │                                                      <workspace-root>/bazel-bin symlink
+             │       │ │                                                      to here
+             │       │ └─<package-path>/<target-name>.runfiles/_main/      <= the defualt work directory for a target
+             │       └─testlogs/                                           <= testlogsDirectory
              │                                                                <workspace-root>/bazel-testlogs
              │                                                                symlink to here
              └─sandbox/                                                    <= sandboxRoot
