@@ -13,14 +13,18 @@
              │     │                                                          under here,
              │     │                                                          <workspace-root>/bazel-out symlink
              │     │                                                          to here
-             │     └─k8-fastbuild/                                         <= [no description]
-             │       ├─bin/                                                <= binary output
-             │       │ │                                                      <workspace-root>/bazel-bin symlink
-             │       │ │                                                      to here
-             │       │ └─<package-path>/<target-name>.runfiles/_main/      <= the defualt work directory for a target
-             │       └─testlogs/                                           <= testlogsDirectory
-             │                                                                <workspace-root>/bazel-testlogs
-             │                                                                symlink to here
+             │     ├─k8-<mode/                                             <= mode:
+             │     │ │                                                        - fastbuild (default)
+             │     │ │                                                        - dbg (when --compilation_mode=dbg)
+             │     │ │                                                        - opt (when --compilation_mode=opt)
+             │     │ ├─bin/                                                <= binary output
+             │     │ │ │                                                      <workspace-root>/bazel-bin symlink
+             │     │ │ │                                                      to here
+             │     │ │ └─<package-path>/<target-name>.runfiles/_main/      <= the defualt work directory for a target
+             │     │ └─testlogs/                                           <= testlogsDirectory
+             │     │                                                          <workspace-root>/bazel-testlogs
+             │     │                                                          symlink to here
+             │     └─k8-dbg/                                               <= outputPath (when --compilation_mode=dbg)
              └─sandbox/                                                    <= sandboxRoot
                ├─processwrapper-sandbox/                                   <= used to conduct build/run
                │ │                                                            will be deleted if
