@@ -24,7 +24,7 @@
                         - "outputPath"
                         - "all actual output of the build is under here, <workspace-root>/bazel-out symlink to here"
                       children:
-                        - path: "k8-<mode/"
+                        - path: "k8-<mode>/"
                           desc:
                             - "mode:"
                             - "- fastbuild (default)"
@@ -50,6 +50,16 @@
                                       desc:
                                         - "appears in 'processwrapper execroot'"
                                     - path: "<target-name>_foreign_cc/"
+                                      desc:
+                                        - "appears in 'canonical execroot'"
+                                        - "contains logs for foreign_cc actions (cmake, make, configure_make)"
+                                      children:
+                                        - path: "CMake.log"
+                                          desc:
+                                            - "log for 'cmake' target"
+                                        - path: "Make.log"
+                                          desc:
+                                            - "log for 'make' target"
                                     - path: "copy_<target-name>/"
                                       desc:
                                         - "appears in 'canonical execroot'"
