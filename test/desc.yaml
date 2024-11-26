@@ -13,7 +13,7 @@
           children:
             - path: "execroot/"
               desc:
-                - "the-canonical-execroot, directory for all actions"
+                - "the-'canonical execroot', directory for all actions"
               children:
                 - path: "_main/"
                   desc:
@@ -45,14 +45,14 @@
                                             - the defualt work directory for a target (bazel run //package:target)
                                     - path: "<target-name>/"
                                       desc:
-                                        - "appears in sandbox-stash-execroot"
+                                        - "appears in 'processwrapper execroot'"
                                     - path: "<target-name>.build_tmpdir/"
                                       desc:
-                                        - "appears in sandbox-stash-execroot"
+                                        - "appears in 'processwrapper execroot'"
                                     - path: "<target-name>_foreign_cc/"
                                     - path: "copy_<target-name>/"
                                       desc:
-                                        - "appears in canonical-execroot"
+                                        - "appears in 'canonical execroot'"
                             - path: "testlogs/"
                               desc:
                                 - "testlogsDirectory"
@@ -75,7 +75,7 @@
                       children:
                         - path: "execroot/"
                           desc:
-                            - "processwrapper-execroot, mimics the-canonical-execroot"
+                            - "'processwrapper execroot', mimics the-'canonical execroot'"
                 - path: "sandbox_stash/"
                   children:
                     - path: "CcMakeMakeRule/"
@@ -88,4 +88,4 @@
                           children:
                             - path: "execroot/"
                               desc:
-                                - "sandbox-stash-execroot, mimics the-canonical-execroot"
+                                - "'sandbox stash execroot', mimics the-'canonical execroot'"
