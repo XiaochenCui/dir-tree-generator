@@ -33,7 +33,7 @@
                         - path: "testlogs/"
                           desc:
                             - "testlogsDirectory"
-                            - "<workspace-root>/bazel-testlogs> symlink to here"
+                            - "<workspace-root>/bazel-testlogs symlink to here"
             - path: "sandbox/"
               desc:
                 - "sandboxRoot"

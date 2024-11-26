@@ -16,7 +16,7 @@
              │           │ │                                                  to here
              │           │ └─<package-path>/<target-name>.runfiles/_main/  <= the defualt work directory for a target
              │           └─testlogs/                                       <= testlogsDirectory
-             │                                                                <workspace-root>/bazel-testlogs>
+             │                                                                <workspace-root>/bazel-testlogs
              │                                                                symlink to here
              └─sandbox/                                                    <= sandboxRoot
                ├─processwrapper-sandbox/                                   <= generated if '--sandbox_debug'
