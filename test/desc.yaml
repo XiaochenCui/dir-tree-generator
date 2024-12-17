@@ -76,8 +76,8 @@
               children:
                 - path: "processwrapper-sandbox/"
                   desc:
-                    - "used to conduct build/run"
-                    - "will be deleted if '--sandbox_debug' option is not present"
+                    - "used to build a target"
+                    - "will be kept if '--sandbox_debug' option is present"
                   children:
                     - path: "<magic-number>/"
                       desc:

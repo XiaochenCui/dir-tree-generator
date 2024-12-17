@@ -38,9 +38,9 @@
              │     │                                                          symlink to here
              │     └─k8-dbg/                                               <= outputPath (when --compilation_mode=dbg)
              └─sandbox/                                                    <= sandboxRoot
-               ├─processwrapper-sandbox/                                   <= used to conduct build/run
-               │ │                                                            will be deleted if
-               │ │                                                            '--sandbox_debug' option is not present
+               ├─processwrapper-sandbox/                                   <= used to build a target
+               │ │                                                            will be kept if '--sandbox_debug'
+               │ │                                                            option is present
                │ └─<magic-number>/                                         <= (TODO: where is this number comes from?)
                │   └─execroot/                                             <= 'processwrapper execroot', mimics
                │                                                              the-'canonical execroot'
